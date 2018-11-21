@@ -298,8 +298,6 @@ void EscreveGanhou() {
 
 #pragma endregion
 
-string a = "teste";
-
 void Inicio() {
 	contadorPontuacao, atingidos = 0;
 	int aux = 0;
@@ -573,14 +571,13 @@ Scene::Scene(int argc, char **argv, string title, int width, int height)
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2); //Põe no centro da tela
 	glutCreateWindow(title.c_str()); // Cria uma janela com o titulo especificado
 
-	Inicio(); //Define posições iniciais
+	//Inicio(); //Define posições iniciais
 	glutSpecialFunc(TeclasDirecionais); //Permite trabalhar com o teclado
 	glutKeyboardFunc(Teclas); //Permite trabalhar com o teclado
 	glutDisplayFunc(DesenhaCena); //Gera a janela e seus artefatos
-
 	glutTimerFunc(50, Anima, 1); //Função timer que executa callback com a função Anima()
 
-	glutMainLoop(); // Dispara a maquina de estados da OpenGL
+	glutMainLoop(); // Dispara a maqui//na de estados da OpenGL
 }
 
 Scene::~Scene()
