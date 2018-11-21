@@ -298,6 +298,8 @@ void EscreveGanhou() {
 
 #pragma endregion
 
+string a = "teste";
+
 void Inicio() {
 	contadorPontuacao, atingidos = 0;
 	int aux = 0;
