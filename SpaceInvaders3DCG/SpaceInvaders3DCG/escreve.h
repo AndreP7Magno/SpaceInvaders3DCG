@@ -100,7 +100,7 @@ void EscreveInicio() {
 }
 
 void creditos() {
-	char texto[150] = "André Magno e William Hoffmann";
+	char texto[150] = "Andre Magno e William Hoffmann";
 
 	glColor3ub(255, 255, 255);
 	glRasterPos3f(-2.5, -2.5, 0.0);

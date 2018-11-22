@@ -52,23 +52,6 @@ void distribuiAlien(alien *a) {
 	}
 }
 
-void desalien(alien a) {
-	pontaAntenaEsquerda(a);
-	baseAntenaEsquerda(a);
-	corpo(a);
-	baixoCorpoDireito(a);
-	baixoCorpoEsquerdo(a);
-	baseAntenaDireita(a);
-	pontaAntenaDireita(a);
-	peEsquerdo(a);
-	peDireito(a);
-	ombroEsquerdo(a);
-	ombroDireito(a);
-	bracoEsquerdo(a);
-	bracoDireito(a);
-	olhoEsquerdo(a);
-	olhoDireito(a);
-}
 
 #pragma region Desenhos
 
@@ -810,3 +793,21 @@ void olhoDireito(alien a) {
 }
 
 #pragma endregion
+
+void desalien(alien a) {
+	pontaAntenaEsquerda(a);
+	baseAntenaEsquerda(a);
+	corpo(a);
+	baixoCorpoDireito(a);
+	baixoCorpoEsquerdo(a);
+	baseAntenaDireita(a);
+	pontaAntenaDireita(a);
+	peEsquerdo(a);
+	peDireito(a);
+	ombroEsquerdo(a);
+	ombroDireito(a);
+	bracoEsquerdo(a);
+	bracoDireito(a);
+	olhoEsquerdo(a);
+	olhoDireito(a);
+}

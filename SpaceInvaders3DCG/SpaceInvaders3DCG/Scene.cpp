@@ -1,556 +1,288 @@
+#include "stdafx.h"
+#include "GL\glew.h"
+#include "GL\freeglut.h"
+#include <iostream>
+#include "bala.h"
+#include "nave.h"
+#include "alien.h"
+#include "fundo.h"
+#include "escreve.h"
+#include "ponto.h"
 #include "Scene.h"
-
-#pragma region Structs
-
-struct Bullet
-{
-	bool foiAtirada;
-	bool atingiu;
-	double translacaoY;
-	double translacaoX;
-};
-
-struct Alien
-{
-	bool atingido;
-	bool desenhado;
-	double posicaoX;
-	double posicaoY;
-};
-
-struct Ponto
-{
-	double pontoXEsq;
-	double pontoXDir;
-};
-
-#pragma endregion
 
 #pragma region Variáveis Globais
 
-double translacaoNaveX;
-double translacaoX;
-double translacaoY;
+bala Bala[5];
+alien Alien[20];
+nave Nave;
+ponto Ponto;
 
-Bullet bullet[3];
-Alien alien[20];
-Ponto ponto;
-
-double contadorPontuacao;
-int naveAtingida, i, j;
-float atingidos, troca;
-
-bool direita = true;
-bool desce = false;
-int telaAtual = 1;
-
-bool pause = false;
-
-double velocidadeAlien = 0.1;
-
-#pragma endregion
-
-#pragma region Desenhos e Textos
-
-void PontoColisao(Ponto ponto) {
-	glColor3f(0.5, 1.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.48 + ponto.pontoXEsq, 0.7 + 2.0);
-	glVertex2f(-0.48 + ponto.pontoXEsq, 0.38 + 2.0);
-	glVertex2f(-0.02 + ponto.pontoXDir, 0.38 + 2.0);
-	glVertex2f(-0.02 + ponto.pontoXDir, 0.7 + 2.0);
-	glEnd();
-}
-
-// Desenha a nave do jogador
-void DesenhaNave() {
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.1 + translacaoNaveX, -0.76);
-	glVertex2f(-0.06 + translacaoNaveX, -0.76);
-	glVertex2f(-0.06 + translacaoNaveX, -0.96);
-	glVertex2f(-0.1 + translacaoNaveX, -0.96);
-	glEnd();
-
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_QUADS);
-	glVertex2f(0.1 + translacaoNaveX, -0.76);
-	glVertex2f(0.06 + translacaoNaveX, -0.76);
-	glVertex2f(0.06 + translacaoNaveX, -0.96);
-	glVertex2f(0.1 + translacaoNaveX, -0.96);
-	glEnd();
-
-	glColor3f(0.4, 0.4, 0.4);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.05 + translacaoNaveX, -0.99);
-	glVertex2f(0.05 + translacaoNaveX, -0.99);
-	glVertex2f(0.05 + translacaoNaveX, -0.96);
-	glVertex2f(-0.05 + translacaoNaveX, -0.96);
-	glEnd();
-
-	glColor3f(0.4, 0.4, 0.4);
-	glBegin(GL_TRIANGLES);
-	glVertex2f(-0.12 + translacaoNaveX, -0.96);
-	glVertex2f(0.12 + translacaoNaveX, -0.96);
-	glVertex2f(0.0 + translacaoNaveX, -0.76);
-	glEnd();
-}
-
-// Somente desenha o alien
-void DesenhaAlien(Alien alien) {
-	//1 ponta antena esquerda
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.4 + alien.posicaoX, 0.7 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.7 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glVertex2f(-0.4 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glEnd();
-
-	//2 base antena esquerda
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.36 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.32 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.32 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glEnd();
-
-	//3 corpo
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.4 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glVertex2f(-0.4 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glEnd();
-
-	//4 baixo corpo esquerdo
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.4 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.4 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glEnd();
-
-	//5 baixo corpo direito
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.1 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.46 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glEnd();
-
-	//6 base antena direita
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.18 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.62 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glVertex2f(-0.18 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glEnd();
-
-	//7 ponta antena direita 
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.14 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.7 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.7 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.66 + alien.posicaoY);
-	glEnd();
-
-	//8 pé esquerdo
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.36 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.28 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.28 + alien.posicaoX, 0.38 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.38 + alien.posicaoY);
-	glEnd();
-
-	//9 pé direito
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.14 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.38 + alien.posicaoY);
-	glVertex2f(-0.22 + alien.posicaoX, 0.38 + alien.posicaoY);
-	glVertex2f(-0.22 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glEnd();
-
-	//10 ombro esquerdo
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.4 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glVertex2f(-0.44 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glVertex2f(-0.44 + alien.posicaoX, 0.50 + alien.posicaoY);
-	glVertex2f(-0.4 + alien.posicaoX, 0.50 + alien.posicaoY);
-	glEnd();
-
-	//11 ombro direito
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.1 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glVertex2f(-0.1 + alien.posicaoX, 0.50 + alien.posicaoY);
-	glVertex2f(-0.06 + alien.posicaoX, 0.50 + alien.posicaoY);
-	glVertex2f(-0.06 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glEnd();
-
-	//12 braço esquerdo
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.44 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.48 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.48 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.44 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glEnd();
-
-	//13 braço direito
-	glColor3f(0.0, 1.0, 0.6);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.06 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.06 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.02 + alien.posicaoX, 0.42 + alien.posicaoY);
-	glVertex2f(-0.02 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glEnd();
-
-	//14 olho esquerdo
-	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.36 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glVertex2f(-0.36 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.32 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.32 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glEnd();
-
-	//15 olho direito
-	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.18 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.54 + alien.posicaoY);
-	glVertex2f(-0.14 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glVertex2f(-0.18 + alien.posicaoX, 0.58 + alien.posicaoY);
-	glEnd();
-}
-
-// Somente desenha a bala
-void DesenhaBala(Bullet bullet) {
-	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.0125 + bullet.translacaoX, -0.76 + bullet.translacaoY);
-	glVertex2f(-0.0125 + bullet.translacaoX, -0.66 + bullet.translacaoY);
-	glVertex2f(0.0125 + bullet.translacaoX, -0.66 + bullet.translacaoY);
-	glVertex2f(0.0125 + bullet.translacaoX, -0.76 + bullet.translacaoY);
-	glEnd();
-}
-
-// Controla a pontuação
-void EscrevePontuacaoGeral() {
-	char texto[12] = "Pontuacao: ";
-	char textoPontuacao[20];
-	int k = 0;
-
-	sprintf_s(textoPontuacao, "%.0f", contadorPontuacao);
-
-	glColor3ub(255, 255, 255);
-	glRasterPos3f(0.4, 2.6, 0.0);
-
-	for (k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
-
-	for (k = 0; k <= strlen(textoPontuacao); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, textoPontuacao[k]);
-}
-
-void EscreveMenuAuxiliar() {
-	char texto[50] = "Aperte Z para Reiniciar ou X para Fechar";
-	int k = 0;
-
-	glColor3ub(255, 255, 255);
-	glRasterPos3f(-1.7, 0.7, 0.0);
-
-	for (k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
-}
-
-void EscrevePerdedor() {
-	char texto[11] = "PERDEU";
-	int k = 0;
-
-	glColor3ub(254, 255, 255);
-	glRasterPos3f(-0.5, 1.0, 0.0);
-
-	for (k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
-}
-
-void EscreveGanhou() {
-	char texto[8] = "GANHOU";
-	int k = 0;
-
-	glColor3ub(255, 255, 255);
-	glRasterPos3f(-0.5, 1.0, 0.0);
-
-	for (k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
-}
+int tela = 0;
+int nivel = 1;
+int contador = 0;
+int at;
+int atingidos;
+bool direita;
+bool avancar;
+bool desce;
 
 #pragma endregion
 
 void Inicio() {
-	contadorPontuacao, atingidos = 0;
-	int aux = 0;
-
-	//Valores iniciais para Balas
-	for (aux = 0; aux < 3; aux++) {
-		bullet[aux].translacaoX = bullet[aux].translacaoY = 0.0;
-		bullet[aux].foiAtirada = false;
+	for (int i = 0; i < 5; i++)
+		Bala[i] = bala();
+	for (int i = 0; i < 20; i++) {
+		Alien[i] = alien(Alien[i]);
+		Alien[i].atingido = Alien[i].desenhado = false;
+		Alien[i].posicaoX = -0.75;
+		Alien[i].posicaoY = 0.25;
+		Alien[i].posicaoZ = -3.0;
 	}
 
-	//Valores iniciais para Aliens
-	for (aux = 0; aux < 20; aux++)
-	{
-		alien[aux].atingido = alien[aux].desenhado = false;
-		alien[aux].posicaoX = -1.5;
-		alien[aux].posicaoY = 2.0;
-	}
-
-	translacaoX = alien[0].posicaoX;
-	troca = translacaoX;
-	translacaoY = alien[0].posicaoY;
-	translacaoNaveX = 0.0;
-
-	//Manipula o x e y iniciais dos aliens
-	for (i = 0; i < 20; i++)
-	{
-		if (translacaoX >= 1) {
-			translacaoX = troca;
-			translacaoY += -0.5;
-			alien[i].atingido = false;
-		}
-
-		if (alien[i].atingido == false) {
-			if (i == 0) {
-				translacaoX = alien[i].posicaoX;
-				translacaoY = alien[i].posicaoY;
-			}
-			else {
-				alien[i].posicaoX = translacaoX;
-				alien[i].posicaoY = translacaoY;
-			}
-			translacaoX += 0.5;
-		}
-	}
-	ponto.pontoXEsq = alien[0].posicaoX;
-	ponto.pontoXDir = alien[4].posicaoX;
+	nave(Nave);
+	distribuiAlien(Alien);
+	at = 0, atingidos = 0;
+	direita, desce = true;
+	avancar = false;
+	Ponto.ponto1 = Alien[0].posicaoX;
+	Ponto.ponto2 = Alien[4].posicaoX;
 }
 
-void DesenhaCena() {
-
-	// Limpa a janela com a cor especificada como cor de fundo
-	glClear(GL_COLOR_BUFFER_BIT);
+void Visualizacao() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(-2, 2, -1.2, 2.8); // Redimenciona os elementos na tela
+	//xmin, xmax, ymin, ymax
+	if (tela == 1)
+		gluPerspective(30, 1, 1, 100);
+	else
+		glOrtho(-3, 3, -3, 3, 1, 100);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//gluLookAt(0.25+n.navex, 3.0+n.navey, 5.0, 0.0+n.navex, 0.0+n.navey, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.5, 2.0, 7.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+}
 
-	if (telaAtual == 1) {
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		DesenhaNave();
-		EscrevePontuacaoGeral();
-		//PontoColisao(ponto);
+void DesenhaCena(void) {
+	// Limpa a janela com a cor especificada como cor de fundo
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 
-		//Desenha Aliens
-		for (i = 0; i < 20; i++)
-		{
-			if (alien[i].atingido == false) //Verifica se o alien não foi atingido pela bala
-				DesenhaAlien(alien[i]);
+	// Para habilitar a transparência
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glShadeModel(GL_FLAT);
+
+	//Funcao de visualizacao 3D
+	Visualizacao();
+	LuzMaterial();
+	creditos();
+
+	if (tela == 0) {
+		Inicio();
+		EscreveBV();
+		EscreveInicio();
+	}
+
+	if (tela == 1) {
+		desnave(Nave);
+		//manipulação da bala
+		for (int i = 0; i < 5; i++) { //movimento da bala
+			if (Bala[i].foiAtirada) {
+				if (Bala[i].translacaoZ < -3.5) {
+					Bala[i].foiAtirada = false;
+					Bala[i].translacaoZ = 0.0;
+				}
+				else {
+					desenhabala(Bala[i]);
+					Bala[i].translacaoZ -= 0.1;
+
+				}
+			}
 		}
 
-		//Movimento do Alien em X
-		for (i = 0; i < 20; i++)
-		{
-			if (direita)
-				alien[i].posicaoX += velocidadeAlien;
-			else
-				alien[i].posicaoX -= velocidadeAlien;
+		if (nivel == 3) {
+			//movimento em y alien
+			for (int i = 0; i < 20; i++) {
+				if (desce)
+					Alien[i].posicaoY -= 0.05;
+				else 
+					Alien[i].posicaoY += 0.05;
+			}
 		}
 
+		//desenha o alien
+		for (int i = 0; i < 20; i++) {
+			if (Alien[i].atingido == false)
+				desalien(Alien[i]);
+		}
+
+		//movimento do alien em x
+		for (int i = 0; i < 20; i++) {
+			if (nivel == 1) {
+				if (direita)
+					Alien[i].posicaoX += 0.05;
+				else
+					Alien[i].posicaoX -= 0.05;
+			}
+			if (nivel == 2 || nivel == 3) {//manipula nivel
+				if (direita)
+					Alien[i].posicaoX += 0.1;
+				else
+					Alien[i].posicaoX -= 0.1;
+			}
+		}
+
+		//movimento em z do alien
+		if (avancar == true) {
+			for (int i = 0; i < 20; i++) {
+				Alien[i].posicaoZ += 0.1;
+
+			}
+			avancar = false;
+		}
+
+		//manipulação da direção dos pontos de colisão dos aliens com a parede
 		if (direita) {
-			ponto.pontoXEsq += velocidadeAlien;
-			ponto.pontoXDir += velocidadeAlien;
+			Ponto.ponto1 += 0.1;
+			Ponto.ponto2 += 0.1;
 		}
 		else
 		{
-			ponto.pontoXEsq -= velocidadeAlien;
-			ponto.pontoXDir -= velocidadeAlien;
+			Ponto.ponto1 -= 0.1;
+			Ponto.ponto2 -= 0.1;
 		}
 
-		//Movimento do Alien em Y
-		if (desce) {
-			for (i = 0; i < 20; i++)
-			{
-				alien[i].posicaoY -= 0.1;
-			}
-			desce = false;
+		EscrevePontuacaoGeral(contador);
+		if (at == 1) {//condição da derrota
+			tela = 2;
+			at = 0;
 		}
-
-		//Movimento da bala
-		for (int i = 0; i < 3; i++) //Número máximo de balas = 2
-		{
-			if (bullet[i].foiAtirada)
-			{
-				if (bullet[i].translacaoY >= 3.5) { //Testa se a bala passou para fora da janela
-					bullet[i].foiAtirada = false;
-					bullet[i].translacaoY = 0.0;
-				}
-				else
-				{
-					DesenhaBala(bullet[i]);
-					bullet[i].translacaoY += 0.1;
-				}
-			}
-		}
-
-		if (naveAtingida == 1) { // Testa se a nova foi atingida (perdeu)
-			telaAtual = 2;
-		}
-
-		if (atingidos == 20) { // Testa se matou todos aliens (venceu)
-			telaAtual = 3;
+		if (atingidos == 20) {//condição da vitória
+			tela = 3;
+			atingidos = 0;
 		}
 	}
 
-	if (telaAtual == 2) {
-		EscrevePontuacaoGeral();
+	//tela de derrota
+	if (tela == 2) {
+		Inicio();
+
+		EscrevePontuacaoGeral(contador);
 		EscrevePerdedor();
 		EscreveMenuAuxiliar();
 	}
 
-	if (telaAtual == 3) {
-		EscrevePontuacaoGeral();
-		EscreveGanhou();
-		EscreveMenuAuxiliar();
+	//tela de vitória
+	if (tela == 3) {
+		EscrevePontuacaoGeral(contador);
+		Inicio();
+		if (nivel != 3) {
+			EscreveGanhador();
+			EscreveMenuAuxiliar2();
+		}
+		if (nivel == 3) {
+			EscreveMenuAuxiliar();
+			EscreveMenuFinal();
+		}
 	}
-
 	glPopMatrix();
 	glutSwapBuffers();
 }
 
 void Teclas(unsigned char tecla, int x, int y) {
 
-	// Escolhe se reinicia ou sai do jogo.
-	if (telaAtual == 2 || telaAtual == 3) {
-		if (tecla == 122 || tecla == 90) { //Se apertar Z reinicia
-			Inicio();
-			telaAtual = 1;
-			naveAtingida = 0;
-			contadorPontuacao = 0;
+	if (tela == 0 || tela == 2 || tela == 3) {
+		if (tecla == 122 || tecla == 90) {
+			if (tela == 2 || tela == 0 || nivel == 3) {
+				contador = 0;
+			}
+
+			if (tela == 2)
+				nivel = 1;
+			if (tela == 3 && nivel == 2) {
+				nivel = 3;
+			}
+			if (tela == 3 && nivel == 1) {
+				nivel = 2;
+			}
+
+			tela = 1;
 		}
 		if (tecla == 120 || tecla == 88) { //Se apertar X sai
 			exit(0);
 		}
 	}
+	else { //Verifica os tiros
+		if (tecla == 32) { //Se apertar Espaço atira
+			for (int i = 0; i < 5; i++) {
+				if (Bala[i].foiAtirada == false) {
+					Bala[i].foiAtirada = true;
+					Bala[i].translacaoX = Nave.posicaoNaveX; //Bala sai da mesma posição que a nave
+					Bala[i].translacaoY = Nave.posicaoNaveY;
+					break;
+				}
 
-	//Verifica os tiros
-	if (tecla == 32 && !pause) { //Se apertar Espaço atira
-		for (x = 0; x < 3; x++) {
-			if (bullet[x].foiAtirada == false) {
-				bullet[x].foiAtirada = true;
-				bullet[x].translacaoX = translacaoNaveX; //Bala sai da mesma posição que a nave
-				break;
 			}
-
 		}
 	}
-
-	if (!pause && tecla == 99)
-		pause = tecla == 99;
-	else if (pause && tecla != 99)
-		pause = true;
-	else if (tecla == 99)
-		pause = false;
-
-	if (!pause)
-		glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 void TeclasDirecionais(int tecla, int x, int y) {
-	if (tecla == GLUT_KEY_RIGHT && !pause)
-		translacaoNaveX += 0.1; //Nave vai para a direita
+	if (tela == 1) {
+		if (tecla == GLUT_KEY_RIGHT) {
+			if (Nave.posicaoNaveX <= 1.7)
+				Nave.posicaoNaveX += 0.1;
+		}
+		if (tecla == GLUT_KEY_LEFT) {
+			if (Nave.posicaoNaveX >= -1.7)
+				Nave.posicaoNaveX -= 0.1;
+		}
 
-	if (tecla == GLUT_KEY_LEFT && !pause)
-		translacaoNaveX -= 0.1; //Nave vai para a esquerda
+		if (tecla == GLUT_KEY_UP) {
+			if (Nave.posicaoNaveY <= 1.7)
+				Nave.posicaoNaveY += 0.1;
+		}
 
-	if (!pause)
-		glutPostRedisplay();
+		if (tecla == GLUT_KEY_DOWN) {
+			if (Nave.posicaoNaveY >= -2.0)
+				Nave.posicaoNaveY -= 0.1;
+		}
+	}
+	glutPostRedisplay();
 }
 
 void Anima(int valor) {
-	if (ponto.pontoXDir >= 2.0) {
+	if (Ponto.ponto2 >= 3.2) {
 		direita = false;
-		desce = true;
+		avancar = true; //flag pra dizer que vai avançar
 	}
-	else if (ponto.pontoXEsq <= -1.54) {
+	else if (Ponto.ponto1 <= -2.6) {
 		direita = true;
-		desce = true;
+		avancar = true;
 	}
 
-	//Colisão do alien com bala
-	for (i = 0; i < 3; i++)
-	{
-		for (j = 0; j < 20; j++)
-		{
-			if (-0.66 >= 0.38 + alien[j].posicaoY && -0.66 <= 0.7 + alien[j].posicaoY) {
-				naveAtingida = 1;
+	if (Alien[0].posicaoY >= 1.0) {
+		desce = true;
+	}
+	else if (Alien[0].posicaoY <= -1.5) {
+		desce = false;
+	}
+	
+	//colisão alien com a nave e com as balas
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 20; j++) {
+			if (0.04 + Alien[j].posicaoZ >= 0 && Alien[j].atingido == false) { //confirma se usuário perdeu o jogo vendo se os aliens chegaram no destino deles;
+				at = 1;
 			}
-
-			if (-0.66 + bullet[i].translacaoY >= 0.38 + alien[j].posicaoY && -0.66 + bullet[i].translacaoY <= 0.7 + alien[j].posicaoY && bullet[i].foiAtirada == true) {
-				if (-0.0125 + bullet[i].translacaoX >= -0.48 + alien[j].posicaoX && -0.0125 + bullet[i].translacaoX <= -0.02 + alien[j].posicaoX && bullet[i].foiAtirada == true) {
-					alien[j].atingido = true;
-					atingidos++;
-					contadorPontuacao += 100;
-					alien[j].posicaoX = 50;
-					alien[j].posicaoY = 50;
-					bullet[i].foiAtirada = false;
-					bullet[i].translacaoY = 0.0;
-				}
-			}
-			else {
-				if (-0.66 + bullet[i].translacaoY >= 0.38 + alien[j].posicaoY && -0.66 + bullet[i].translacaoY <= 0.7 + alien[j].posicaoY && bullet[i].foiAtirada == true) {
-					if (0.0125 + bullet[i].translacaoX >= -0.48 + alien[j].posicaoX && 0.0125 + bullet[i].translacaoX <= -0.02 + alien[j].posicaoX && bullet[i].foiAtirada == true) {
-						alien[j].atingido = true;
-						atingidos++;
-						contadorPontuacao += 100;
-						alien[j].posicaoX = 50;
-						alien[j].posicaoY = 50;
-						bullet[i].foiAtirada = false;
-						bullet[i].translacaoY = 0.0;
-					}
-				}
-				else {
-					if (-0.76 + bullet[i].translacaoY >= 0.38 + alien[j].posicaoY && -0.76 + bullet[i].translacaoY <= 0.7 + alien[j].posicaoY && bullet[i].foiAtirada == true) {
-						if (-0.0125 + bullet[i].translacaoX >= -0.48 + alien[j].posicaoX && -0.0125 + bullet[i].translacaoX <= -0.02 + alien[j].posicaoX && bullet[i].foiAtirada == true) {
-							alien[j].atingido = true;
+			if (Bala[i].foiAtirada == true) {
+				if (0.2 + Bala[i].translacaoZ >= 0.0 + Alien[j].posicaoZ && 0 + Bala[i].translacaoZ <= 0.04 + Alien[j].posicaoZ) {
+					if (0.0125 + Bala[i].translacaoX >= -0.48 + Alien[j].posicaoX && -0.0125 + Bala[i].translacaoX <= -0.02 + Alien[j].posicaoX) {
+						if (0.0125 + Bala[i].translacaoY >= 0.38 + Alien[j].posicaoY && -0.0125 + Bala[i].translacaoY <= 0.7 + Alien[j].posicaoY) {
+							Alien[j].posicaoX += 100;
+							contador += 100;
 							atingidos++;
-							contadorPontuacao += 100;
-							alien[j].posicaoX = 50;
-							alien[j].posicaoY = 50;
-							bullet[i].foiAtirada = false;
-							bullet[i].translacaoY = 0.0;
-						}
-					}
-					else {
-						if (-0.76 + bullet[i].translacaoY >= 0.38 + alien[j].posicaoY && -0.76 + bullet[i].translacaoY <= 0.7 + alien[j].posicaoY && bullet[i].foiAtirada == true) {
-							if (0.0125 + bullet[i].translacaoX >= -0.48 + alien[j].posicaoX && 0.0125 + bullet[i].translacaoX <= -0.02 + alien[j].posicaoX && bullet[i].foiAtirada == true) {
-								alien[j].atingido = true;
-								atingidos++;
-								contadorPontuacao += 100;
-								alien[j].posicaoX = 50;
-								alien[j].posicaoY = 50;
-								bullet[i].foiAtirada = false;
-								bullet[i].translacaoY = 0.0;
-							}
+							Bala[i] = bala();
 						}
 					}
 				}
@@ -558,8 +290,7 @@ void Anima(int valor) {
 		}
 	}
 
-	if (!pause)
-		glutPostRedisplay();
+	glutPostRedisplay();
 	glutTimerFunc(50, Anima, 1);
 }
 
@@ -571,7 +302,7 @@ Scene::Scene(int argc, char **argv, string title, int width, int height)
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2); //Põe no centro da tela
 	glutCreateWindow(title.c_str()); // Cria uma janela com o titulo especificado
 
-	//Inicio(); //Define posições iniciais
+	//Inicio();
 	glutSpecialFunc(TeclasDirecionais); //Permite trabalhar com o teclado
 	glutKeyboardFunc(Teclas); //Permite trabalhar com o teclado
 	glutDisplayFunc(DesenhaCena); //Gera a janela e seus artefatos
