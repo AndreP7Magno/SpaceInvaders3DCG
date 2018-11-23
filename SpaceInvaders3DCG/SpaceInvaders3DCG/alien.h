@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "stdafx.h"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
@@ -45,7 +44,7 @@ void distribuiAlien(alien *a) {
 			}
 			else {
 				a[i].posicaoX = transx;
-				a[i].posicaoX = transy;
+				a[i].posicaoY = transy;
 			}
 			transx += 0.5;
 		}
@@ -111,6 +110,7 @@ void pontaAntenaEsquerda(alien a) {
 	glVertex3f(-0.4 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glEnd();
 }
+
 void baseAntenaEsquerda(alien a) {
 	//frente
 	glColor3f(0.0, 1.0, 0.6);
@@ -166,6 +166,7 @@ void baseAntenaEsquerda(alien a) {
 	glVertex3f(-0.32 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 }
+
 void corpo(alien a) {
 	//frente
 	glColor3f(0.0, 1.0, 0.6);
@@ -221,6 +222,7 @@ void corpo(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 }
+
 void baixoCorpoDireito(alien a) {
 	//frente
 	glColor3f(0.0, 1.0, 0.6);
@@ -276,6 +278,7 @@ void baixoCorpoDireito(alien a) {
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 }
+
 void baixoCorpoEsquerdo(alien a) {
 	//frente
 	glColor3f(0.0, 1.0, 0.6);
@@ -331,6 +334,7 @@ void baixoCorpoEsquerdo(alien a) {
 	glVertex3f(-0.4 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 }
+
 void baseAntenaDireita(alien a) {
 	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);

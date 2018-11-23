@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "stdafx.h"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
@@ -28,7 +27,7 @@ void EscrevePontuacaoGeral(int cont) {
 
 void EscrevePerdedor() {
 	char texto[11] = "PERDEU";
-
+	
 	glColor3ub(254, 255, 255);
 	glRasterPos3f(-0.5, 1.0, 0.0);
 
@@ -60,7 +59,7 @@ void EscreveMenuAuxiliar() {
 	char texto[50] = "Aperte Z para Reiniciar ou X para Fechar";
 
 	glColor3ub(255, 255, 255);
-	glRasterPos3f(-2.0, 0.7, 0.0);
+	glRasterPos3f(-2.0, -0.7, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);

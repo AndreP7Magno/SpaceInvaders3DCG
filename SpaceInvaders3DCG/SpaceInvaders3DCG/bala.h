@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "stdafx.h"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
@@ -12,9 +11,9 @@ public:
 
 	bool foiAtirada;
 	bool atingiu;
-	double translacaoX;
-	double translacaoY;
-	double translacaoZ;
+	float translacaoX;
+	float translacaoY;
+	float translacaoZ;
 };
 
 bala::bala() {

@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "stdafx.h"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
@@ -8,6 +7,10 @@
 class fundo
 {
 public:
+};
+
+struct ponto {
+	float ponto1, ponto2;
 };
 
 void LuzMaterial() {
