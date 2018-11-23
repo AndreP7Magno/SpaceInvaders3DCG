@@ -9,10 +9,6 @@ class fundo
 public:
 };
 
-struct ponto {
-	float ponto1, ponto2;
-};
-
 void LuzMaterial() {
 	//Definição das propriedades dos materiais
 	float ambiente[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //Cinza

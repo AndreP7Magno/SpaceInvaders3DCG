@@ -46,7 +46,7 @@ void EscreveGanhador() {
 }
 
 void EscreveMenuFinal() {
-	char texto[50] = "Você zerou o joguinho";
+	char texto[50] = "Voce zerou o jogo";
 
 	glColor3ub(255, 255, 255);
 	glRasterPos3f(-0.5, 1.0, 0.0);
@@ -66,7 +66,7 @@ void EscreveMenuAuxiliar() {
 }
 
 void EscreveMenuAuxiliar2() {
-	char texto[150] = "Aperte Z para ir ao próximo nível ou X para Fechar";
+	char texto[150] = "Aperte Z para ir ao proximo nivel ou X para Fechar";
 
 	glColor3ub(255, 255, 255);
 	glRasterPos3f(-2.0, -0.7, 0.0);

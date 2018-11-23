@@ -6,6 +6,7 @@
 #include "nave.h"
 #include "alien.h"
 #include "fundo.h"
+#include "ponto.h"
 #include "escreve.h"
 
 #pragma region Variáveis Globais
