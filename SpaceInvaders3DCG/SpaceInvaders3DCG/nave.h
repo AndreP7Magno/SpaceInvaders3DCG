@@ -4,8 +4,7 @@
 #include "GL\freeglut.h"
 #include <iostream>
 
-class nave
-{
+class nave {
 public:
 	nave();
 	float posicaoNaveX, posicaoNaveY, posicaoNaveZ;
@@ -18,7 +17,7 @@ nave::nave() {
 }
 
 
-void desnave(nave n) {
+void desenhaNave(nave n) {
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0.2 + n.posicaoNaveX, 0.0 + n.posicaoNaveY, n.posicaoNaveZ + -0.2);

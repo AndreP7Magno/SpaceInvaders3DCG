@@ -4,8 +4,7 @@
 #include "GL\freeglut.h"
 #include <iostream>
 
-class escreve
-{
+class escreve {
 public:
 };
 
@@ -16,7 +15,7 @@ void EscrevePontuacaoGeral(int cont) {
 	sprintf_s(textoPontuacao, "%d", cont);
 
 	glColor3ub(255, 255, 255);
-	glRasterPos3f(0.7, -2.0, 0.0);
+	glRasterPos3f(1.0, -2.0, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);
@@ -26,7 +25,7 @@ void EscrevePontuacaoGeral(int cont) {
 }
 
 void EscrevePerdedor() {
-	char texto[11] = "PERDEU";
+	char texto[11] = "PERDEU!";
 	
 	glColor3ub(254, 255, 255);
 	glRasterPos3f(-0.5, 1.0, 0.0);
@@ -36,7 +35,7 @@ void EscrevePerdedor() {
 }
 
 void EscreveGanhador() {
-	char texto[8] = "GANHOU";
+	char texto[8] = "GANHOU!";
 
 	glColor3ub(255, 255, 255);
 	glRasterPos3f(-0.5, 1.0, 0.0);
@@ -46,13 +45,13 @@ void EscreveGanhador() {
 }
 
 void EscreveMenuFinal() {
-	char texto[50] = "Voce zerou o jogo";
+	char texto[50] = "PARABENS! Voce zerou o jogo";
 
 	glColor3ub(255, 255, 255);
 	glRasterPos3f(-0.5, 1.0, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
 }
 
 void EscreveMenuAuxiliar() {
@@ -72,7 +71,7 @@ void EscreveMenuAuxiliar2() {
 	glRasterPos3f(-2.0, -0.7, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
 
 }
 
@@ -80,29 +79,39 @@ void EscreveBV() {
 	char texto[50] = "BEM VINDO AO SPACE INVADERS 3D";
 
 	glColor3ub(255, 255, 255);
-	glRasterPos3f(-0.5, 1.0, 0.0);
+	glRasterPos3f(-1.5, 1.5, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
 
 }
 
-void EscreveInicio() {
-	char texto[50] = "Aperte Z para Iniciar ou X para Fechar";
+void EscreveIniciar() {
+	char texto[50] = "Z --- INICIAR O JOGO";
 
 	glColor3ub(255, 255, 255);
-	glRasterPos3f(-2.0, -0.7, 0.0);
+	glRasterPos3f(-1.5, -0.2, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
+
+}
+void EscreveFechar() {
+	char texto[50] = "X --- FECHAR O JOGO";
+
+	glColor3ub(255, 255, 255);
+	glRasterPos3f(-1.5, -0.6, 0.0);
+
+	for (int k = 0; k <= strlen(texto); k++)
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, texto[k]);
 
 }
 
 void creditos() {
-	char texto[150] = "Andre Magno e William Hoffmann";
+	char texto[150] = "Criadores: Andre Magno e William Hoffmann";
 
 	glColor3ub(255, 255, 255);
-	glRasterPos3f(-2.5, -2.5, 0.0);
+	glRasterPos3f(-2.0, -3.0, 0.0);
 
 	for (int k = 0; k <= strlen(texto); k++)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, texto[k]);

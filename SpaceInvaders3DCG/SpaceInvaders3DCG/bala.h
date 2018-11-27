@@ -4,8 +4,7 @@
 #include "GL\freeglut.h"
 #include <iostream>
 
-class bala
-{
+class bala {
 public:
 	bala();
 
@@ -24,9 +23,11 @@ bala::bala() {
 	translacaoZ = 0.0;
 }
 
-void desenhabala(bala b) {
-	//frente da bala
+void desenhaBala(bala b) {
+	
 	glColor3f(1.0, 1.0, 1.0);
+	
+	// Parte da frente da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);
@@ -34,8 +35,7 @@ void desenhabala(bala b) {
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.0);
 	glEnd();
 
-	// cima da bala
-	glColor3f(1.0, 1.0, 1.0);
+	// Parte de cima da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.2);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.2);
@@ -43,8 +43,7 @@ void desenhabala(bala b) {
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.0);
 	glEnd();
 
-	//trás da bala
-	glColor3f(1.0, 1.0, 1.0);
+	// Parte atrás da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.2);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.2);
@@ -52,8 +51,7 @@ void desenhabala(bala b) {
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.2);
 	glEnd();
 
-	//direita da bala
-	glColor3f(1.0, 1.0, 1.0);
+	// Parte direita da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.2);
@@ -61,8 +59,7 @@ void desenhabala(bala b) {
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.0);
 	glEnd();
 
-	//esquerda da bala
-	glColor3f(1.0, 1.0, 1.0);
+	// Parte esquerda da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.2);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);
@@ -70,8 +67,7 @@ void desenhabala(bala b) {
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + 0.0125, b.translacaoZ + 0.2);
 	glEnd();
 
-	//baixo da bala
-	glColor3f(1.0, 1.0, 1.0);
+	// Parte inferior da bala
 	glBegin(GL_QUADS);
 	glVertex3f(b.translacaoX + 0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);
 	glVertex3f(b.translacaoX + -0.0125, b.translacaoY + -0.0125, b.translacaoZ + 0.0);

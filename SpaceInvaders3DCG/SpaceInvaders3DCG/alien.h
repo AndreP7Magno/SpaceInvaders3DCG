@@ -4,13 +4,12 @@
 #include "GL\freeglut.h"
 #include <iostream>
 
-class alien
-{
+class alien {
 public:
 	alien();
 
 	bool atingido;
-	bool desenhado;
+	bool desenhaAlien;
 	float posicaoX;
 	float posicaoY;
 	float posicaoZ;
@@ -19,7 +18,7 @@ public:
 alien::alien()
 {
 	// valores iniciais para os aliens
-	atingido = desenhado = false;
+	atingido = desenhaAlien = false;
 	posicaoX = -0.75;
 	posicaoY = 0.25;
 	posicaoZ = -3.0;
@@ -56,8 +55,9 @@ void distribuiAlien(alien *a) {
 
 void pontaAntenaEsquerda(alien a) {
 
-	//parte da frente
 	glColor3f(0.0, 1.0, 0.6);
+
+	//parte da frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
@@ -66,7 +66,6 @@ void pontaAntenaEsquerda(alien a) {
 	glEnd();
 
 	//parte de trás
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.36 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
@@ -75,7 +74,6 @@ void pontaAntenaEsquerda(alien a) {
 	glEnd();
 
 	//parte de cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
@@ -84,7 +82,6 @@ void pontaAntenaEsquerda(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
@@ -93,7 +90,6 @@ void pontaAntenaEsquerda(alien a) {
 	glEnd();
 
 	//esquerda
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.36 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
@@ -102,7 +98,6 @@ void pontaAntenaEsquerda(alien a) {
 	glEnd();
 
 	//direita
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.4 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
@@ -112,16 +107,18 @@ void pontaAntenaEsquerda(alien a) {
 }
 
 void baseAntenaEsquerda(alien a) {
-	//frente
+	
 	glColor3f(0.0, 1.0, 0.6);
+	
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.32 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.32 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
+
 	//trás
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.36 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -130,7 +127,6 @@ void baseAntenaEsquerda(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
@@ -139,7 +135,6 @@ void baseAntenaEsquerda(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -147,9 +142,7 @@ void baseAntenaEsquerda(alien a) {
 	glVertex3f(-0.32 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.36 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -157,8 +150,7 @@ void baseAntenaEsquerda(alien a) {
 	glVertex3f(-0.36 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.32 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.32 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -168,8 +160,10 @@ void baseAntenaEsquerda(alien a) {
 }
 
 void corpo(alien a) {
-	//frente
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
@@ -178,7 +172,6 @@ void corpo(alien a) {
 	glEnd();
 
 	//trás
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -187,7 +180,6 @@ void corpo(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -196,7 +188,6 @@ void corpo(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
@@ -204,8 +195,7 @@ void corpo(alien a) {
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.4 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -213,8 +203,7 @@ void corpo(alien a) {
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -224,8 +213,10 @@ void corpo(alien a) {
 }
 
 void baixoCorpoDireito(alien a) {
-	//frente
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -234,7 +225,6 @@ void baixoCorpoDireito(alien a) {
 	glEnd();
 
 	//trás
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
@@ -243,7 +233,6 @@ void baixoCorpoDireito(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
@@ -252,7 +241,6 @@ void baixoCorpoDireito(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -260,8 +248,7 @@ void baixoCorpoDireito(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
@@ -269,8 +256,7 @@ void baixoCorpoDireito(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.0);
@@ -280,8 +266,10 @@ void baixoCorpoDireito(alien a) {
 }
 
 void baixoCorpoEsquerdo(alien a) {
-	//frente
+	
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -290,7 +278,6 @@ void baixoCorpoEsquerdo(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -299,7 +286,6 @@ void baixoCorpoEsquerdo(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -308,7 +294,6 @@ void baixoCorpoEsquerdo(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -317,7 +302,6 @@ void baixoCorpoEsquerdo(alien a) {
 	glEnd();
 
 	//esq
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -326,7 +310,6 @@ void baixoCorpoEsquerdo(alien a) {
 	glEnd();
 
 	//dir
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.46 + a.posicaoY, a.posicaoZ + 0.04);
@@ -337,6 +320,8 @@ void baixoCorpoEsquerdo(alien a) {
 
 void baseAntenaDireita(alien a) {
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
@@ -345,7 +330,6 @@ void baseAntenaDireita(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -354,7 +338,6 @@ void baseAntenaDireita(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
@@ -363,7 +346,6 @@ void baseAntenaDireita(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
@@ -371,8 +353,7 @@ void baseAntenaDireita(alien a) {
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.18 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -380,8 +361,7 @@ void baseAntenaDireita(alien a) {
 	glVertex3f(-0.18 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.62 + a.posicaoY, a.posicaoZ + 0.0);
@@ -391,7 +371,10 @@ void baseAntenaDireita(alien a) {
 }
 
 void pontaAntenaDireita(alien a) {
+	
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
@@ -400,7 +383,6 @@ void pontaAntenaDireita(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
@@ -409,7 +391,6 @@ void pontaAntenaDireita(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
@@ -418,7 +399,6 @@ void pontaAntenaDireita(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
@@ -426,8 +406,7 @@ void pontaAntenaDireita(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
@@ -435,8 +414,7 @@ void pontaAntenaDireita(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.66 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.14 + a.posicaoX, 0.7 + a.posicaoY, a.posicaoZ + 0.0);
@@ -446,7 +424,10 @@ void pontaAntenaDireita(alien a) {
 }
 
 void peEsquerdo(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.28 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
@@ -455,7 +436,6 @@ void peEsquerdo(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.28 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -464,7 +444,6 @@ void peEsquerdo(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.28 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -473,7 +452,6 @@ void peEsquerdo(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.28 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -481,8 +459,7 @@ void peEsquerdo(alien a) {
 	glVertex3f(-0.36 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.0);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.36 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -490,8 +467,7 @@ void peEsquerdo(alien a) {
 	glVertex3f(-0.36 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.28 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.28 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -501,7 +477,10 @@ void peEsquerdo(alien a) {
 }
 
 void peDireito(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -510,7 +489,6 @@ void peDireito(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -519,7 +497,6 @@ void peDireito(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -528,7 +505,6 @@ void peDireito(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -536,8 +512,7 @@ void peDireito(alien a) {
 	glVertex3f(-0.22 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -545,8 +520,7 @@ void peDireito(alien a) {
 	glVertex3f(-0.22 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.14 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.14 + a.posicaoX, 0.38 + a.posicaoY, a.posicaoZ + 0.04);
@@ -556,7 +530,10 @@ void peDireito(alien a) {
 }
 
 void ombroEsquerdo(alien a) {
+	
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.44 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
@@ -565,7 +542,6 @@ void ombroEsquerdo(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.44 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
@@ -574,7 +550,6 @@ void ombroEsquerdo(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.44 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
@@ -583,7 +558,6 @@ void ombroEsquerdo(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.44 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.0);
@@ -591,8 +565,7 @@ void ombroEsquerdo(alien a) {
 	glVertex3f(-0.4 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.44 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
@@ -600,8 +573,7 @@ void ombroEsquerdo(alien a) {
 	glVertex3f(-0.44 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.4 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.4 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
@@ -611,7 +583,10 @@ void ombroEsquerdo(alien a) {
 }
 
 void ombroDireito(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.04);
@@ -620,7 +595,6 @@ void ombroDireito(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.0);
@@ -629,7 +603,6 @@ void ombroDireito(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
@@ -638,8 +611,6 @@ void ombroDireito(alien a) {
 	glEnd();
 
 	//baixo
-
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.5 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.1 + a.posicaoX, 0.5 + a.posicaoY, a.posicaoZ + 0.0);
@@ -647,8 +618,7 @@ void ombroDireito(alien a) {
 	glVertex3f(-0.06 + a.posicaoX, 0.5 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.1 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.0);
@@ -656,8 +626,7 @@ void ombroDireito(alien a) {
 	glVertex3f(-0.1 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.06 + a.posicaoX, 0.50 + a.posicaoY, a.posicaoZ + 0.0);
@@ -667,7 +636,10 @@ void ombroDireito(alien a) {
 }
 
 void bracoEsquerdo(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.48 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
@@ -676,7 +648,6 @@ void bracoEsquerdo(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.48 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
@@ -685,7 +656,6 @@ void bracoEsquerdo(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.48 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
@@ -694,7 +664,6 @@ void bracoEsquerdo(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.48 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -702,8 +671,7 @@ void bracoEsquerdo(alien a) {
 	glVertex3f(-0.44 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.48 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.48 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
@@ -711,8 +679,7 @@ void bracoEsquerdo(alien a) {
 	glVertex3f(-0.48 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.44 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.44 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
@@ -722,7 +689,10 @@ void bracoEsquerdo(alien a) {
 }
 
 void bracoDireito(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
+
+	//frente
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.06 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
@@ -731,7 +701,6 @@ void bracoDireito(alien a) {
 	glEnd();
 
 	//tras
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.06 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -740,7 +709,6 @@ void bracoDireito(alien a) {
 	glEnd();
 
 	//cima
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
@@ -749,7 +717,6 @@ void bracoDireito(alien a) {
 	glEnd();
 
 	//baixo
-	glColor3f(0.0, 1.0, 0.6);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glVertex3f(-0.06 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -757,8 +724,7 @@ void bracoDireito(alien a) {
 	glVertex3f(-0.02 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//esq
-	glColor3f(0.0, 1.0, 0.6);
+	//esquerda
 	glBegin(GL_QUADS);
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.06 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -766,8 +732,7 @@ void bracoDireito(alien a) {
 	glVertex3f(-0.06 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.04);
 	glEnd();
 
-	//dir
-	glColor3f(0.0, 1.0, 0.6);
+	//direita
 	glBegin(GL_QUADS);
 	glVertex3f(-0.02 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.0);
 	glVertex3f(-0.02 + a.posicaoX, 0.42 + a.posicaoY, a.posicaoZ + 0.0);
@@ -798,7 +763,7 @@ void olhoDireito(alien a) {
 
 #pragma endregion
 
-void desalien(alien a) {
+void desenhaAlien(alien a) {
 	pontaAntenaEsquerda(a);
 	baseAntenaEsquerda(a);
 	corpo(a);

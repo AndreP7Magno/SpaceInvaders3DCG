@@ -2,12 +2,12 @@
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include <iostream>
-#include "bala.h"
-#include "nave.h"
 #include "alien.h"
-#include "fundo.h"
-#include "ponto.h"
+#include "bala.h"
 #include "escreve.h"
+//#include "fundo.h"
+#include "nave.h"
+#include "ponto.h"
 
 #pragma region Variáveis Globais
 
@@ -17,7 +17,7 @@ nave Nave;
 ponto Ponto;
 
 int contador = 0;
-int at;
+int naveAtingida;
 int atingidos;
 int nivel = 1;
 int tela = 0;
@@ -28,11 +28,12 @@ bool desce;
 #pragma endregion
 
 void Inicio() {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; i++) {
 		Bala[i] = bala();
+	}
 	for (int i = 0; i < 20; i++) {
-		Alien[i] = alien(Alien[i]);
-		Alien[i].atingido = Alien[i].desenhado = false;
+		Alien[i] = alien(Alien[i]); // Coloca cada alien e suas propriedades em uma posição do vetor
+		Alien[i].atingido = Alien[i].desenhaAlien = false; // Desenha o alien, colocando a condição de NÃO atingido
 		Alien[i].posicaoX = -0.75;
 		Alien[i].posicaoY = 0.25;
 		Alien[i].posicaoZ = -3.0;
@@ -40,7 +41,7 @@ void Inicio() {
 
 	nave(Nave);
 	distribuiAlien(Alien);
-	at = 0, atingidos = 0;
+	naveAtingida = 0, atingidos = 0;
 	direita, desce = true;
 	avancar = false;
 	Ponto.ponto1 = Alien[0].posicaoX;
@@ -57,8 +58,8 @@ void Visualizacao() {
 		glOrtho(-3, 3, -3, 3, 1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//gluLookAt(0.25+n.navex, 3.0+n.navey, 5.0, 0.0+n.navex, 0.0+n.navey, 0.0, 0.0, 1.0, 0.0);
 	gluLookAt(0.5, 2.0, 7.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	//gluLookAt(1.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Teste camera lateral
 }
 
 void DesenhaCena(void) {
@@ -73,17 +74,19 @@ void DesenhaCena(void) {
 
 	//Funcao de visualizacao 3D
 	Visualizacao();
-	LuzMaterial();
-	creditos();
+	//LuzMaterial();
+
 
 	if (tela == 0) {
 		Inicio();
 		EscreveBV();
-		EscreveInicio();
+		EscreveIniciar();
+		EscreveFechar();
+		creditos();
 	}
 
 	if (tela == 1) {
-		desnave(Nave);
+		desenhaNave(Nave);
 		//manipulação da bala
 		for (int i = 0; i < 5; i++) { //movimento da bala
 			if (Bala[i].foiAtirada) {
@@ -92,7 +95,7 @@ void DesenhaCena(void) {
 					Bala[i].translacaoZ = 0.0;
 				}
 				else {
-					desenhabala(Bala[i]);
+					desenhaBala(Bala[i]);
 					Bala[i].translacaoZ -= 0.1;
 				}
 			}
@@ -113,7 +116,7 @@ void DesenhaCena(void) {
 		//desenha o alien
 		for (int i = 0; i < 20; i++) {
 			if (Alien[i].atingido == false)
-				desalien(Alien[i]);
+				desenhaAlien(Alien[i]);
 		}
 
 		//movimento do alien em x
@@ -126,7 +129,7 @@ void DesenhaCena(void) {
 					Alien[i].posicaoX -= 0.05;
 				}
 			}
-			if (nivel == 2 || nivel == 3) {//manipula nivel
+			if (nivel == 2 || nivel == 3) { // manipula nivel
 				if (direita) {
 					Alien[i].posicaoX += 0.1;
 				}
@@ -156,9 +159,9 @@ void DesenhaCena(void) {
 		}
 
 		EscrevePontuacaoGeral(contador);
-		if (at == 1) {//condição da derrota
+		if (naveAtingida == 1) {//condição da derrota
 			tela = 2;
-			at = 0;
+			naveAtingida = 0;
 		}
 		if (atingidos == 20) {//condição da vitória
 			tela = 3;
@@ -194,7 +197,7 @@ void Anima(int valor) {
 		direita = false;
 		avancar = true; //flag pra dizer que vai avançar
 	}
-	else if (Ponto.ponto1 <= -2.6) {
+	else if (Ponto.ponto1 <= -3.4) {
 		direita = true;
 		avancar = true;
 	}
@@ -210,7 +213,7 @@ void Anima(int valor) {
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 20; j++) {
 			if (0.04 + Alien[j].posicaoZ >= 0 && Alien[j].atingido == false) { //confirma se usuário perdeu o jogo vendo se os aliens chegaram no destino deles;
-				at = 1;
+				naveAtingida = 1;
 			}
 			if (Bala[i].foiAtirada == true) {
 				if (0.2 + Bala[i].translacaoZ >= 0.0 + Alien[j].posicaoZ && 0 + Bala[i].translacaoZ <= 0.04 + Alien[j].posicaoZ) {
@@ -248,7 +251,7 @@ void TeclasDirecionais(int tecla, int x, int y) {
 		}
 
 		if (tecla == GLUT_KEY_DOWN) {
-			if (Nave.posicaoNaveY >= -2.0)
+			if (Nave.posicaoNaveY >= -1.7)
 				Nave.posicaoNaveY -= 0.1;
 		}
 	}
@@ -299,8 +302,8 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	// Indica que deve ser usado um unico buffer para armazenamento da imagem e representacao de cores RGB
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); 
-	//glutInitWindowSize(width, height); //Tamanho da janela
-	//glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2); //Põe no centro da tela
+	glutInitWindowSize(600, 600); //Tamanho da janela
+	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 600) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - 600) / 2); //Põe no centro da tela
 	glutCreateWindow("Space Invaders");
 
 	//Inicio();
