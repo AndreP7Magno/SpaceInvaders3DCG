@@ -107,7 +107,7 @@ void EscreveFechar() {
 
 }
 
-void creditos() {
+void EscreveCreditos() {
 	char texto[150] = "Criadores: Andre Magno e William Hoffmann";
 
 	glColor3ub(255, 255, 255);

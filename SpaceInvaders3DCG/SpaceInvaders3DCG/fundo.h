@@ -28,6 +28,6 @@ void LuzMaterial() {
 	glLightfv(GL_LIGHT0, GL_POSITION, posicao_luz);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, intensidade_luz);
 
-	/*glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);*/
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);*/
 }

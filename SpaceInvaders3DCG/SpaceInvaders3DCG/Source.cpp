@@ -5,7 +5,6 @@
 #include "alien.h"
 #include "bala.h"
 #include "escreve.h"
-//#include "fundo.h"
 #include "nave.h"
 #include "ponto.h"
 
@@ -24,6 +23,9 @@ int tela = 0;
 bool direita;
 bool avancar;
 bool desce;
+double camY = 2.0;
+double camZ = 7.0;
+bool pause = false;
 
 #pragma endregion
 
@@ -44,22 +46,21 @@ void Inicio() {
 	naveAtingida = 0, atingidos = 0;
 	direita, desce = true;
 	avancar = false;
-	Ponto.ponto1 = Alien[0].posicaoX;
-	Ponto.ponto2 = Alien[4].posicaoX;
+	Ponto.pontoXEsq = Alien[0].posicaoX;
+	Ponto.pontoXDir = Alien[4].posicaoX;
 }
 
 void Visualizacao() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//xmin, xmax, ymin, ymax
 	if (tela == 1)
 		gluPerspective(30, 1, 1, 100);
 	else
 		glOrtho(-3, 3, -3, 3, 1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0.5, 2.0, 7.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	//gluLookAt(1.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Teste camera lateral
+	gluLookAt(0.5, camY, camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	//gluLookAt(0.5, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Teste camera lateral
 }
 
 void DesenhaCena(void) {
@@ -74,15 +75,13 @@ void DesenhaCena(void) {
 
 	//Funcao de visualizacao 3D
 	Visualizacao();
-	//LuzMaterial();
-
 
 	if (tela == 0) {
 		Inicio();
 		EscreveBV();
 		EscreveIniciar();
 		EscreveFechar();
-		creditos();
+		EscreveCreditos();
 	}
 
 	if (tela == 1) {
@@ -149,13 +148,13 @@ void DesenhaCena(void) {
 
 		//manipulação da direção dos pontos de colisão dos aliens com a parede
 		if (direita) {
-			Ponto.ponto1 += 0.1;
-			Ponto.ponto2 += 0.1;
+			Ponto.pontoXEsq += 0.1;
+			Ponto.pontoXDir += 0.1;
 		}
 		else
 		{
-			Ponto.ponto1 -= 0.1;
-			Ponto.ponto2 -= 0.1;
+			Ponto.pontoXEsq -= 0.1;
+			Ponto.pontoXDir -= 0.1;
 		}
 
 		EscrevePontuacaoGeral(contador);
@@ -193,15 +192,17 @@ void DesenhaCena(void) {
 }
 
 void Anima(int valor) {
-	if (Ponto.ponto2 >= 3.2) {
+	// Para todos niveis
+	if (Ponto.pontoXDir >= 3.2) { //Limita a parede no lado direito
 		direita = false;
 		avancar = true; //flag pra dizer que vai avançar
 	}
-	else if (Ponto.ponto1 <= -3.4) {
+	else if (Ponto.pontoXEsq <= -3.4) { //Limita a parede no lado esquerdo
 		direita = true;
 		avancar = true;
 	}
 
+	// Para o nivel 3
 	if (Alien[0].posicaoY >= 1.0) {
 		desce = true;
 	}
@@ -230,35 +231,52 @@ void Anima(int valor) {
 		}
 	}
 
-	glutPostRedisplay();
+	if (!pause)
+		glutPostRedisplay();
 	glutTimerFunc(50, Anima, 1);
 }
 
 void TeclasDirecionais(int tecla, int x, int y) {
-	if (tela == 1) {
-		if (tecla == GLUT_KEY_RIGHT) {
-			if (Nave.posicaoNaveX <= 1.7)
-				Nave.posicaoNaveX += 0.1;
-		}
-		if (tecla == GLUT_KEY_LEFT) {
-			if (Nave.posicaoNaveX >= -1.7)
-				Nave.posicaoNaveX -= 0.1;
-		}
+	if (!pause) {
+		if (tela == 1) {
+			if (tecla == GLUT_KEY_RIGHT) {
+				if (Nave.posicaoNaveX <= 1.7)
+					Nave.posicaoNaveX += 0.1;
+			}
+			if (tecla == GLUT_KEY_LEFT) {
+				if (Nave.posicaoNaveX >= -1.7)
+					Nave.posicaoNaveX -= 0.1;
+			}
 
-		if (tecla == GLUT_KEY_UP) {
-			if (Nave.posicaoNaveY <= 1.7)
-				Nave.posicaoNaveY += 0.1;
-		}
+			if (tecla == GLUT_KEY_UP) {
+				if (Nave.posicaoNaveY <= 1.7)
+					Nave.posicaoNaveY += 0.1;
+			}
 
-		if (tecla == GLUT_KEY_DOWN) {
-			if (Nave.posicaoNaveY >= -1.7)
-				Nave.posicaoNaveY -= 0.1;
+			if (tecla == GLUT_KEY_DOWN) {
+				if (Nave.posicaoNaveY >= -1.7)
+					Nave.posicaoNaveY -= 0.1;
+			}
 		}
+		glutPostRedisplay();
 	}
-	glutPostRedisplay();
 }
 
 void Teclas(unsigned char tecla, int x, int y) {
+
+	// Muda a camera no eixo Z
+	if (!pause) {
+		if (tela == 1) {
+			if (tecla == 97) //A
+				camZ = camZ - 0.3;
+			else if (tecla == 68 || tecla == 100) //D
+				camZ = camZ + 0.3;
+			else if (tecla == 119) //W
+				camY = camY + 0.3;
+			else if (tecla == 115) //S
+				camY = camY - 0.3;
+		}
+	}
 
 	if (tela == 0 || tela == 2 || tela == 3) {
 		if (tecla == 122 || tecla == 90) {
@@ -282,7 +300,7 @@ void Teclas(unsigned char tecla, int x, int y) {
 		}
 	}
 	else { //Verifica os tiros
-		if (tecla == 32) { //Se apertar Espaço atira
+		if (tecla == 32 && !pause) { //Se apertar Espaço atira
 			for (int i = 0; i < 5; i++) {
 				if (Bala[i].foiAtirada == false) {
 					Bala[i].foiAtirada = true;
@@ -294,24 +312,31 @@ void Teclas(unsigned char tecla, int x, int y) {
 			}
 		}
 	}
-	glutPostRedisplay();
+
+	if (!pause && tecla == 99)
+		pause = tecla = 99;
+	else if (pause && tecla != 99)
+		pause = true;
+	else if (tecla == 99)
+		pause = false;
+
+	if (!pause)
+		glutPostRedisplay();
 }
 
 int main(int argc, char **argv) {
-
 	glutInit(&argc, argv);
 	// Indica que deve ser usado um unico buffer para armazenamento da imagem e representacao de cores RGB
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); 
-	glutInitWindowSize(600, 600); //Tamanho da janela
-	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 600) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - 600) / 2); //Põe no centro da tela
-	glutCreateWindow("Space Invaders");
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(600, 600);
+	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 600) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - 600) / 2);
+	glutCreateWindow("Space Invaders 3D");
 
-	//Inicio();
-	glutSpecialFunc(TeclasDirecionais); //Permite trabalhar com o teclado
-	glutKeyboardFunc(Teclas); //Permite trabalhar com o teclado
-	glutDisplayFunc(DesenhaCena); //Gera a janela e seus artefatos
-	glutTimerFunc(50, Anima, 1); //Função timer que executa callback com a função Anima()
+	glutSpecialFunc(TeclasDirecionais);
+	glutKeyboardFunc(Teclas);
+	glutDisplayFunc(DesenhaCena);
+	glutTimerFunc(50, Anima, 1);
 
-	glutMainLoop(); // Dispara a maquina de estados da OpenGL
+	glutMainLoop();
 	return 0;
 }

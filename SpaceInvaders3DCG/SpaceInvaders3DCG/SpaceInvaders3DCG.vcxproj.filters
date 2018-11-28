@@ -27,9 +27,6 @@
     <ClInclude Include="bala.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fundo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="escreve.h">
       <Filter>Header Files</Filter>
     </ClInclude>

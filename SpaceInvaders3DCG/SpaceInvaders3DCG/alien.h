@@ -319,6 +319,7 @@ void baixoCorpoEsquerdo(alien a) {
 }
 
 void baseAntenaDireita(alien a) {
+
 	glColor3f(0.0, 1.0, 0.6);
 
 	//frente
@@ -742,6 +743,7 @@ void bracoDireito(alien a) {
 }
 
 void olhoEsquerdo(alien a) {
+
 	glColor3f(0.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.36 + a.posicaoX, 0.58 + a.posicaoY, a.posicaoZ + 0.05);
@@ -752,6 +754,7 @@ void olhoEsquerdo(alien a) {
 }
 
 void olhoDireito(alien a) {
+
 	glColor3f(0.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.18 + a.posicaoX, 0.54 + a.posicaoY, a.posicaoZ + 0.05);
@@ -764,6 +767,7 @@ void olhoDireito(alien a) {
 #pragma endregion
 
 void desenhaAlien(alien a) {
+
 	pontaAntenaEsquerda(a);
 	baseAntenaEsquerda(a);
 	corpo(a);
